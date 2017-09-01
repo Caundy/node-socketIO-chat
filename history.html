@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Socket.IO chat history</title>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+        <script>
+            $(function () {
+                var socket = io();
+
+                socket.emit('viewing history', 'Someone is viewing the history');
+                
+    
+                //append a history received from server
+                socket.on('history sent', function(historyArray){
+                    $('#messageHistory').empty();
+                    for(item of historyArray){
+                        $('#messageHistory').append($('<li>').text(item));
+                    }
+                    
+                });
+
+            });
+
+        </script>
+        <style>
+                * { margin: 0; padding: 0; box-sizing: border-box; }
+                body { font: 18px Helvetica, Arial; }
+                form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+                form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+                form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+                #messageHistory { list-style-type: none; margin: 0; padding: 0; }
+                #messageHistory li { padding: 5px 10px; }
+                #messageHistory li:nth-child(odd) { background: #eee; }
+            </style>
+    </head>
+    <body>
+        <ul id="messageHistory"></ul>
+    </body>
+</html>
